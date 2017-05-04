@@ -1,7 +1,7 @@
 import * as iroha from "../src/irohajs";
 import { Transaction } from "../src/api";
 
-const sha3_256 = require("js-sha3").sha3_256;
+const sha3 = require("crypto-js").SHA3;
 const supercop = require("supercop.js");
 
 describe("TEST Iroha javascript", () => {
@@ -72,7 +72,7 @@ describe("TEST Iroha javascript", () => {
 
   describe("Iroha Verify", () => {
     it("Verify succeeded!", () => {
-      const msg = sha3_256("test");
+      const msg = sha3("test", { outputLength: 256 }).toString();
       const res = iroha.verify({
         "publicKey": publicKey,
         "message": msg,
@@ -83,7 +83,7 @@ describe("TEST Iroha javascript", () => {
     });
 
     it("Verify not succeeded!", () => {
-      const msg = sha3_256("abcd");
+      const msg = sha3("abcd", { outputLength: 256 }).toString();
       const res = iroha.verify({
         "publicKey": publicKey,
         "message": msg,

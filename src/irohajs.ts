@@ -2,7 +2,7 @@ export * from "./api";
 export * from "./client";
 export * from "./wallet";
 
-export const sha3_256 = require("js-sha3").sha3_256;
+export const sha3 = require("crypto-js").SHA3;
 export const supercop = require("supercop.js");
 
 /**
@@ -33,7 +33,7 @@ export function createKeyPair (): IKeyPair {
 export function sign (opt: { publicKey: string, privateKey: string, message: string }): string {
   const publicKey = new Buffer(opt.publicKey, "base64");
   const privateKey = new Buffer(opt.privateKey, "base64");
-  const sha3Message = new Buffer(sha3_256(opt.message));
+  const sha3Message = new Buffer(sha3(opt.message, { outputLength: 256 }).toString());
 
   const sig = supercop.sign(
     sha3Message,
